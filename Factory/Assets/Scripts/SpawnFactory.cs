@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class SpawnFactory : MonoBehaviour
 {
+    public int factoryCount = 5;
     public GameObject factory;
     public GameObject belt;
     private Vector3 touchPosition;
@@ -24,10 +25,18 @@ public class SpawnFactory : MonoBehaviour
                 if (hit.collider.gameObject.CompareTag("Factory"))
                 {
                     Debug.Log("Touched the factory");
+                    Destroy(hit.collider.gameObject);
+                    factoryCount++;
                     
                 }
                 else
                 {
+                    if (factoryCount <= 0)
+                    {
+                        
+                        return;
+                    }
+                    factoryCount--;
                     Instantiate(factory, touchPosition, Quaternion.identity);
                 }
                 
