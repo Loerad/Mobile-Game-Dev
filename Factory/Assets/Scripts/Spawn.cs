@@ -4,10 +4,8 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class SpawnFactory : MonoBehaviour
+public class Spawn : MonoBehaviour
 {
-
-
     [HideInInspector]
     public Vector3 touchPosition;
     [Header("Factory")]
