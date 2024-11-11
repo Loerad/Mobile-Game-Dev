@@ -8,15 +8,20 @@ public class Factory : MonoBehaviour
     public Vector3 outputBelt;
     public List<GameObject> inputBeltObject = new List<GameObject>();
     public GameObject outputBeltObject;
+    void Awake()
+    {
+        inputBelt.Capacity = 2;
+        inputBeltObject.Capacity = 2;
+    }
     void LateUpdate()
     {
-        if (inputBelt[0] == outputBelt)//if the player accidentally places the belt on the same space
+        if (inputBeltObject[0] == outputBeltObject)//if the player accidentally places the belt on the same space
         {
             inputBelt[0] = Vector3.zero;
             outputBelt = Vector3.zero;
             Destroy(inputBeltObject[0]);
         }
-        if (inputBelt[1] == outputBelt)
+        if (inputBeltObject[1] == outputBeltObject)
         {
             inputBelt[1] = Vector3.zero;
             outputBelt = Vector3.zero;

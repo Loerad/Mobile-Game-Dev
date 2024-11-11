@@ -98,9 +98,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ebef91476b36de4eaf5f497bffd4614, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputBelt: {x: 0, y: 0, z: 0}
+  inputBelt:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
   outputBelt: {x: 0, y: 0, z: 0}
-  inputBeltObject: {fileID: 0}
+  inputBeltObject:
+  - {fileID: 0}
+  - {fileID: 0}
   outputBeltObject: {fileID: 0}
 --- !u!61 &-4891122935241341771
 BoxCollider2D:
