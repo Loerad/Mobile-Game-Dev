@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 2691417871739778774}
   - component: {fileID: 7525777369152505184}
   m_Layer: 0
-  m_Name: Factory
-  m_TagString: Factory
+  m_Name: Foundry
+  m_TagString: Foundry
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 8993945457506504816}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -2.2952108, y: 0.395969, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -145,5 +145,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputBelt: {x: 0, y: 0, z: 0}
   outputBelt: {x: 0, y: 0, z: 0}
-  inputBeltObject: {fileID: 0}
-  outputBeltObject: {fileID: 0}

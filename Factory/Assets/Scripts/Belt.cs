@@ -1,15 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Belt : MonoBehaviour
 {
-    public SpawnFactory spawnFactory;
+    public Spawn spawn;
     LineRenderer lr;
     // Start is called before the first frame update
     void Awake()
     {
-        spawnFactory = GameObject.Find("Main Camera").GetComponent<SpawnFactory>();
+        spawn = GameObject.Find("Main Camera").GetComponent<Spawn>();
         lr = GetComponent<LineRenderer>();
     }
 
@@ -22,12 +23,12 @@ public class Belt : MonoBehaviour
             {
                 case TouchPhase.Moved:
                 {
-                    lr.SetPosition(1, spawnFactory.touchPosition);
+                    lr.SetPosition(1, spawn.touchPosition);
                     break;
                 }
                 case TouchPhase.Stationary:
                 {
-                    lr.SetPosition(1, spawnFactory.touchPosition);
+                    lr.SetPosition(1, spawn.touchPosition);
                     break;
                 }
                 case TouchPhase.Ended:
@@ -39,13 +40,16 @@ public class Belt : MonoBehaviour
                         if (hit.collider.gameObject.CompareTag("Factory"))
                         {
                             GameObject target = hit.collider.gameObject;
+                            Vector3 inputPoint = target.transform.position;
                             if (target.GetComponent<Factory>().inputBelt != Vector3.zero) { Destroy(gameObject); return; }
+                            
 
-                            lr.SetPosition(1, target.transform.position);
+                            lr.SetPosition(1, inputPoint);
+
                             lr.useWorldSpace = true;
-
                             
                             target.GetComponent<Factory>().inputBelt = lr.GetPosition(1);
+                            target.GetComponent<Factory>().inputBeltObject = gameObject;
 
                             enabled = false;
                         }

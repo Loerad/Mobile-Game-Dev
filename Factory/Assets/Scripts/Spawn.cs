@@ -56,7 +56,10 @@ public class Spawn : MonoBehaviour
                             {
                                 if (hit.collider.gameObject.CompareTag("Factory"))
                                 {
-                                    Destroy(hit.collider.gameObject);
+                                    GameObject target = hit.collider.gameObject;
+                                    Destroy(target.GetComponent<Factory>().outputBeltObject);
+                                    Destroy(target.GetComponent<Factory>().inputBeltObject);
+                                    Destroy(target);
                                     factoryCount++;
                                     factoryButton.text = factoryCount.ToString();
                                 }
@@ -117,17 +120,32 @@ public class Spawn : MonoBehaviour
                             {
                                 case TouchPhase.Began:
                                 {
+
                                     if (hit.collider.gameObject.CompareTag("Factory"))
                                     {
                                         GameObject target = hit.collider.gameObject;
+                                        Vector3 outputPoint = target.transform.position;
 
-                                        currentbelt = Instantiate(belt, target.transform.position, Quaternion.identity);
+                                        currentbelt = Instantiate(belt, outputPoint, Quaternion.identity);
 
                                         if (target.GetComponent<Factory>().outputBelt != Vector3.zero) { Destroy(currentbelt); return; }
-                                        currentbelt.GetComponent<LineRenderer>().SetPosition(0, target.transform.position);
+                                        currentbelt.GetComponent<LineRenderer>().SetPosition(0, outputPoint);
                                         target.GetComponent<Factory>().outputBelt = currentbelt.GetComponent<LineRenderer>().GetPosition(0);
+                                        target.GetComponent<Factory>().outputBeltObject = currentbelt;
 
                                     }
+                                    // else if (hit.collider.gameObject.CompareTag("Foundry"))
+                                    // {
+                                    //     GameObject target = hit.collider.gameObject;
+
+                                    //     currentbelt = Instantiate(belt, target.transform.position, Quaternion.identity);
+
+                                    //     if (target.GetComponent<Foundry>().outputBelt != Vector3.zero) { Destroy(currentbelt); return; }
+                                    //     currentbelt.GetComponent<LineRenderer>().SetPosition(0, target.transform.position);
+                                    //     target.GetComponent<Foundry>().outputBelt = currentbelt.GetComponent<LineRenderer>().GetPosition(0);
+                                    //     target.GetComponent<Foundry>().outputBeltObject = currentbelt;
+                                    // }
+
                                     break;
                                 }
                             }
