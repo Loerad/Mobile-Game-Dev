@@ -1,0 +1,12 @@
+.button {
+    margin-top: 5%;
+    margin-right: 5%;
+    margin-bottom: 5%;
+    margin-left: 5%;
+    width: 20%;
+    height: 10%;
+    border-top-left-radius: 60px;
+    border-top-right-radius: 60px;
+    border-bottom-right-radius: 60px;
+    border-bottom-left-radius: 60px;
+}
