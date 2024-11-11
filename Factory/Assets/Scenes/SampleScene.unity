@@ -325,10 +325,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 007c6187697835840951a7bcd673437f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  factoryCount: 5
-  factory: {fileID: 8993945457506504816, guid: 00001d990bcdc404cbab51e6869e2448, type: 3}
-  belt: {fileID: 1848465253590045119, guid: a3747257bfaad5b4baaac92dbd5b02c2, type: 3}
   touchPosition: {x: 0, y: 0, z: 0}
+  factory: {fileID: 8993945457506504816, guid: 00001d990bcdc404cbab51e6869e2448, type: 3}
+  factoryCount: 5
+  belt: {fileID: 1848465253590045119, guid: a3747257bfaad5b4baaac92dbd5b02c2, type: 3}
+  foundry: {fileID: 8993945457506504816, guid: a12c86c55dcda1842bc05dfa29f604e9, type: 3}
+  foundryCount: 5
 --- !u!114 &519420036
 MonoBehaviour:
   m_ObjectHideFlags: 0

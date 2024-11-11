@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class Foundry : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    public Vector3 outputBelt;
+    public GameObject outputBeltObject;
+
+    void LateUpdate()
     {
-        
+        if (outputBeltObject == null)
+        {
+            outputBelt = Vector3.zero;
+        }
     }
 }

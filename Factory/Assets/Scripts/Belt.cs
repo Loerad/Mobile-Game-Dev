@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -41,17 +42,36 @@ public class Belt : MonoBehaviour
                         {
                             GameObject target = hit.collider.gameObject;
                             Vector3 inputPoint = target.transform.position;
-                            if (target.GetComponent<Factory>().inputBelt != Vector3.zero) { Destroy(gameObject); return; }
-                            
+                            if (target.GetComponent<Factory>().inputBelt[0] != Vector3.zero) //is there a belt in the first slot?
+                            { 
+                                //yes there is, check if there is a belt in the second slot
+                                if (target.GetComponent<Factory>().inputBelt[1] != Vector3.zero) //is there a belt in the second slot?
+                                { 
+                                    Destroy(gameObject); return; //its full, destroy yourself now!
+                                }
+                                else //no, this one is free
+                                {
+                                    lr.SetPosition(1, inputPoint);
 
-                            lr.SetPosition(1, inputPoint);
+                                    lr.useWorldSpace = true;
 
-                            lr.useWorldSpace = true;
-                            
-                            target.GetComponent<Factory>().inputBelt = lr.GetPosition(1);
-                            target.GetComponent<Factory>().inputBeltObject = gameObject;
+                                    target.GetComponent<Factory>().inputBelt[1] = lr.GetPosition(1);
+                                    target.GetComponent<Factory>().inputBeltObject[1] = gameObject;
 
-                            enabled = false;
+                                    enabled = false;
+                                }
+                            }
+                            else //no, there isn't, put it here
+                            {
+                                lr.SetPosition(1, inputPoint);
+
+                                lr.useWorldSpace = true;
+
+                                target.GetComponent<Factory>().inputBelt[0] = lr.GetPosition(1);
+                                target.GetComponent<Factory>().inputBeltObject[0] = gameObject;
+
+                                enabled = false;
+                            }
                         }
                         else
                         {

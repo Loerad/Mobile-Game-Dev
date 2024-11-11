@@ -32,6 +32,7 @@ public class Spawn : MonoBehaviour
         foundryButton.RegisterCallback<ClickEvent>(ev => State.mode = Mode.Foundry);
         factoryButton.text = $"Factories:\n{factoryCount}";
         beltButton.text = "Belts";
+        foundryButton.text = $"Foundries:\n{foundryCount}";
 
     }
 
@@ -58,10 +59,11 @@ public class Spawn : MonoBehaviour
                                 {
                                     GameObject target = hit.collider.gameObject;
                                     Destroy(target.GetComponent<Factory>().outputBeltObject);
-                                    Destroy(target.GetComponent<Factory>().inputBeltObject);
+                                    Destroy(target.GetComponent<Factory>().inputBeltObject[0]);
+                                    Destroy(target.GetComponent<Factory>().inputBeltObject[1]);
                                     Destroy(target);
                                     factoryCount++;
-                                    factoryButton.text = factoryCount.ToString();
+                                    factoryButton.text = $"Factories:\n{factoryCount}";
                                 }
                                 else
                                 {
@@ -70,12 +72,12 @@ public class Spawn : MonoBehaviour
                                         return;
                                     }
                                     factoryCount--;
-                                    factoryButton.text = factoryCount.ToString();
+                                    factoryButton.text = $"Factories:\n{factoryCount}";
                                     Instantiate(factory, touchPosition, Quaternion.identity);
                                 } 
                             }
                         }
-                        catch (System.Exception)
+                        catch (System.NullReferenceException)
                         {
                             return; //allows ui buttons to be pressed without spawning a factory
                         }
@@ -89,9 +91,11 @@ public class Spawn : MonoBehaviour
                             {
                                 if (hit.collider.gameObject.CompareTag("Foundry"))
                                 {
-                                    Destroy(hit.collider.gameObject);
+                                    GameObject target = hit.collider.gameObject;
+                                    Destroy(target.GetComponent<Foundry>().outputBeltObject);
+                                    Destroy(target);
                                     foundryCount++;
-                                    foundryButton.text = foundryCount.ToString();
+                                    foundryButton.text = $"Foundries:\n{foundryCount}";
                                 }
                                 else
                                 {
@@ -100,12 +104,12 @@ public class Spawn : MonoBehaviour
                                         return;
                                     }
                                     foundryCount--;
-                                    foundryButton.text = foundryCount.ToString();
+                                    foundryButton.text = $"Foundries:\n{foundryCount}";
                                     Instantiate(foundry, touchPosition, Quaternion.identity);
                                 } 
                             }
                         }
-                        catch (System.Exception)
+                        catch (System.NullReferenceException)
                         {
                             return; //allows ui buttons to be pressed without spawning a factory
                         }
@@ -134,23 +138,23 @@ public class Spawn : MonoBehaviour
                                         target.GetComponent<Factory>().outputBeltObject = currentbelt;
 
                                     }
-                                    // else if (hit.collider.gameObject.CompareTag("Foundry"))
-                                    // {
-                                    //     GameObject target = hit.collider.gameObject;
+                                    else if (hit.collider.gameObject.CompareTag("Foundry"))
+                                    {
+                                        GameObject target = hit.collider.gameObject;
+                                        Vector3 outputPoint = target.transform.position;
 
-                                    //     currentbelt = Instantiate(belt, target.transform.position, Quaternion.identity);
+                                        currentbelt = Instantiate(belt, outputPoint, Quaternion.identity);
 
-                                    //     if (target.GetComponent<Foundry>().outputBelt != Vector3.zero) { Destroy(currentbelt); return; }
-                                    //     currentbelt.GetComponent<LineRenderer>().SetPosition(0, target.transform.position);
-                                    //     target.GetComponent<Foundry>().outputBelt = currentbelt.GetComponent<LineRenderer>().GetPosition(0);
-                                    //     target.GetComponent<Foundry>().outputBeltObject = currentbelt;
-                                    // }
-
+                                        if (target.GetComponent<Foundry>().outputBelt != Vector3.zero) { Destroy(currentbelt); return; }
+                                        currentbelt.GetComponent<LineRenderer>().SetPosition(0, outputPoint);
+                                        target.GetComponent<Foundry>().outputBelt = currentbelt.GetComponent<LineRenderer>().GetPosition(0);
+                                        target.GetComponent<Foundry>().outputBeltObject = currentbelt;
+                                    }
                                     break;
                                 }
                             }
                         }
-                        catch (System.Exception)
+                        catch (System.NullReferenceException)
                         {
                             return; //allows ui buttons to be pressed without spawning a factory
                         }

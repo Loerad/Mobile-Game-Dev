@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4962359020845329884}
   - component: {fileID: 2780527253806203964}
-  - component: {fileID: 2691417871739778774}
   - component: {fileID: 7525777369152505184}
+  - component: {fileID: -4891122935241341771}
   m_Layer: 0
   m_Name: Factory
   m_TagString: Factory
@@ -86,7 +86,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &2691417871739778774
+--- !u!114 &7525777369152505184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8993945457506504816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ebef91476b36de4eaf5f497bffd4614, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputBelt: {x: 0, y: 0, z: 0}
+  outputBelt: {x: 0, y: 0, z: 0}
+  inputBeltObject: {fileID: 0}
+  outputBeltObject: {fileID: 0}
+--- !u!61 &-4891122935241341771
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -129,21 +145,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &7525777369152505184
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8993945457506504816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ebef91476b36de4eaf5f497bffd4614, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inputBelt: {x: 0, y: 0, z: 0}
-  outputBelt: {x: 0, y: 0, z: 0}
-  inputBeltObject: {fileID: 0}
-  outputBeltObject: {fileID: 0}

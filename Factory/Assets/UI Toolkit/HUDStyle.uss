@@ -9,4 +9,5 @@
     border-top-right-radius: 60px;
     border-bottom-right-radius: 60px;
     border-bottom-left-radius: 60px;
+    font-size: 10px;
 }
