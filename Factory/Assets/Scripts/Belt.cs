@@ -44,7 +44,7 @@ public class Belt : MonoBehaviour
                             Vector3 inputPoint = target.transform.position;
                             if (target.GetComponent<Factory>().inputBelt[0] != Vector3.zero) //is there a belt in the first slot?
                             { 
-                                //yes there is, check if there is a belt in the second slot
+                                //yes there is because that vector is not zero, check if there is a belt in the second slot
                                 if (target.GetComponent<Factory>().inputBelt[1] != Vector3.zero) //is there a belt in the second slot?
                                 { 
                                     Destroy(gameObject); return; //its full, destroy yourself now!

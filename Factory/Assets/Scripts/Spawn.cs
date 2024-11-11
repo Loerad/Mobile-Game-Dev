@@ -43,10 +43,12 @@ public class Spawn : MonoBehaviour
             //https://discussions.unity.com/t/best-way-to-detect-touch-on-a-gameobject/157075/2
             if (Input.touchCount > 0)
             {
+
                 touchPosition = Camera.main.ScreenToWorldPoint(touch.position) + new Vector3(0, 0, 9);
                 Vector2 touch2D = new Vector2(touchPosition.x, touchPosition.y);
-                RaycastHit2D hit = Physics2D.Raycast(touch2D, Camera.main.transform.forward);
-                // Construct a ray from the current touch coordinates
+                RaycastHit2D hit = Physics2D.Raycast(touch2D, Camera.main.transform.forward); 
+
+
                 switch (State.mode)
                 {
                     case Mode.Factory:
@@ -92,7 +94,7 @@ public class Spawn : MonoBehaviour
                                 if (hit.collider.gameObject.CompareTag("Foundry"))
                                 {
                                     GameObject target = hit.collider.gameObject;
-                                    Destroy(target.GetComponent<Foundry>().outputBeltObject);
+                                    Destroy(target.GetComponent<Foundry>().outputBeltObject); //foundries only give out one output and do not take inputs unlike factories
                                     Destroy(target);
                                     foundryCount++;
                                     foundryButton.text = $"Foundries:\n{foundryCount}";
@@ -132,7 +134,9 @@ public class Spawn : MonoBehaviour
 
                                         currentbelt = Instantiate(belt, outputPoint, Quaternion.identity);
 
-                                        if (target.GetComponent<Factory>().outputBelt != Vector3.zero) { Destroy(currentbelt); return; }
+                                        if (target.GetComponent<Factory>().outputBelt != Vector3.zero) //do I already have a output belt?
+                                        { Destroy(currentbelt); return; } //yes because that vector is not zero, destroy yourself now!
+
                                         currentbelt.GetComponent<LineRenderer>().SetPosition(0, outputPoint);
                                         target.GetComponent<Factory>().outputBelt = currentbelt.GetComponent<LineRenderer>().GetPosition(0);
                                         target.GetComponent<Factory>().outputBeltObject = currentbelt;
@@ -145,7 +149,8 @@ public class Spawn : MonoBehaviour
 
                                         currentbelt = Instantiate(belt, outputPoint, Quaternion.identity);
 
-                                        if (target.GetComponent<Foundry>().outputBelt != Vector3.zero) { Destroy(currentbelt); return; }
+                                        if (target.GetComponent<Foundry>().outputBelt != Vector3.zero) { Destroy(currentbelt); return; } //same as above
+                                        
                                         currentbelt.GetComponent<LineRenderer>().SetPosition(0, outputPoint);
                                         target.GetComponent<Foundry>().outputBelt = currentbelt.GetComponent<LineRenderer>().GetPosition(0);
                                         target.GetComponent<Foundry>().outputBeltObject = currentbelt;
