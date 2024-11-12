@@ -14,9 +14,9 @@ public class Spawn : MonoBehaviour
     public int factoryCount = 5;
 
     [Header("Belt")]
-    
+
     public GameObject belt;
-    private Button beltButton;
+    private Button deleteButton;
     [Header("Foundry")]
     public GameObject foundry;
     private Button foundryButton;
@@ -26,12 +26,12 @@ public class Spawn : MonoBehaviour
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
         factoryButton = root.Q<Button>("FactoryButton");
         factoryButton.RegisterCallback<ClickEvent>(ev => State.mode = Mode.Factory);
-        beltButton = root.Q<Button>("BeltButton");
-        beltButton.RegisterCallback<ClickEvent>(ev => State.mode = Mode.Belt);
+        deleteButton = root.Q<Button>("DeleteButton");
+        deleteButton.RegisterCallback<ClickEvent>(ev => State.mode = Mode.Delete);
         foundryButton = root.Q<Button>("FoundryButton");
         foundryButton.RegisterCallback<ClickEvent>(ev => State.mode = Mode.Foundry);
         factoryButton.text = $"Factories:\n{factoryCount}";
-        beltButton.text = "Belts";
+        deleteButton.text = "Delete";
         foundryButton.text = $"Foundries:\n{foundryCount}";
 
     }
@@ -46,87 +46,18 @@ public class Spawn : MonoBehaviour
 
                 touchPosition = Camera.main.ScreenToWorldPoint(touch.position) + new Vector3(0, 0, 9);
                 Vector2 touch2D = new Vector2(touchPosition.x, touchPosition.y);
-                RaycastHit2D hit = Physics2D.Raycast(touch2D, Camera.main.transform.forward); 
+                RaycastHit2D hit = Physics2D.Raycast(touch2D, Camera.main.transform.forward);
 
 
                 switch (State.mode)
                 {
                     case Mode.Factory:
-                    {
-                        try
                         {
-                            if (touch.phase == TouchPhase.Began)
+                            try
                             {
-                                if (hit.collider.gameObject.CompareTag("Factory"))
+                                if (touch.phase == TouchPhase.Began)
                                 {
-                                    GameObject target = hit.collider.gameObject;
-                                    Destroy(target.GetComponent<Factory>().outputBeltObject);
-                                    Destroy(target.GetComponent<Factory>().inputBeltObject[0]);
-                                    Destroy(target.GetComponent<Factory>().inputBeltObject[1]);
-                                    Destroy(target);
-                                    factoryCount++;
-                                    factoryButton.text = $"Factories:\n{factoryCount}";
-                                }
-                                else
-                                {
-                                    if (factoryCount <= 0)
-                                    {
-                                        return;
-                                    }
-                                    factoryCount--;
-                                    factoryButton.text = $"Factories:\n{factoryCount}";
-                                    Instantiate(factory, touchPosition, Quaternion.identity);
-                                } 
-                            }
-                        }
-                        catch (System.NullReferenceException)
-                        {
-                            return; //allows ui buttons to be pressed without spawning a factory
-                        }
-                        break;
-                    }
-                    case Mode.Foundry:
-                    {
-                        try
-                        {
-                            if (touch.phase == TouchPhase.Began)
-                            {
-                                if (hit.collider.gameObject.CompareTag("Foundry"))
-                                {
-                                    GameObject target = hit.collider.gameObject;
-                                    Destroy(target.GetComponent<Foundry>().outputBeltObject); //foundries only give out one output and do not take inputs unlike factories
-                                    Destroy(target);
-                                    foundryCount++;
-                                    foundryButton.text = $"Foundries:\n{foundryCount}";
-                                }
-                                else
-                                {
-                                    if (foundryCount <= 0)
-                                    {
-                                        return;
-                                    }
-                                    foundryCount--;
-                                    foundryButton.text = $"Foundries:\n{foundryCount}";
-                                    Instantiate(foundry, touchPosition, Quaternion.identity);
-                                } 
-                            }
-                        }
-                        catch (System.NullReferenceException)
-                        {
-                            return; //allows ui buttons to be pressed without spawning a factory
-                        }
-                        break;
-                    }
-                    case Mode.Belt:
-                    {
-                        try
-                        {
-                            GameObject currentbelt = null;
-                            switch (touch.phase)
-                            {
-                                case TouchPhase.Began:
-                                {
-
+                                    GameObject currentbelt = null;
                                     if (hit.collider.gameObject.CompareTag("Factory"))
                                     {
                                         GameObject target = hit.collider.gameObject;
@@ -144,27 +75,99 @@ public class Spawn : MonoBehaviour
                                     }
                                     else if (hit.collider.gameObject.CompareTag("Foundry"))
                                     {
+                                        return;
+                                    }
+                                    else
+                                    {
+                                        if (factoryCount <= 0)
+                                        {
+                                            return;
+                                        }
+                                        factoryCount--;
+                                        factoryButton.text = $"Factories:\n{factoryCount}";
+                                        Instantiate(factory, touchPosition, Quaternion.identity);
+                                    }
+                                    break;
+                                }
+                            }
+                            catch (System.NullReferenceException)
+                            {
+                                return; //allows ui buttons to be pressed without spawning a factory
+                            }
+                            break;
+                        }
+                    case Mode.Foundry:
+                        {
+                            try
+                            {
+                                if (touch.phase == TouchPhase.Began)
+                                {
+                                    GameObject currentbelt = null;
+                                    if (hit.collider.gameObject.CompareTag("Foundry"))
+                                    {
                                         GameObject target = hit.collider.gameObject;
                                         Vector3 outputPoint = target.transform.position;
 
                                         currentbelt = Instantiate(belt, outputPoint, Quaternion.identity);
 
                                         if (target.GetComponent<Foundry>().outputBelt != Vector3.zero) { Destroy(currentbelt); return; } //same as above
-                                        
+
                                         currentbelt.GetComponent<LineRenderer>().SetPosition(0, outputPoint);
                                         target.GetComponent<Foundry>().outputBelt = currentbelt.GetComponent<LineRenderer>().GetPosition(0);
                                         target.GetComponent<Foundry>().outputBeltObject = currentbelt;
                                     }
-                                    break;
+                                    else if (hit.collider.gameObject.CompareTag("Factory"))
+                                    {
+                                        return;
+                                    }
+                                    else
+                                    {
+                                        if (foundryCount <= 0)
+                                        {
+                                            return;
+                                        }
+                                        foundryCount--;
+                                        foundryButton.text = $"Foundries:\n{foundryCount}";
+                                        Instantiate(foundry, touchPosition, Quaternion.identity);
+                                    }
                                 }
                             }
+                            catch (System.NullReferenceException)
+                            {
+                                return; //allows ui buttons to be pressed without spawning a factory
+                            }
+                            break;
                         }
-                        catch (System.NullReferenceException)
+                    case Mode.Delete:
                         {
-                            return; //allows ui buttons to be pressed without spawning a factory
+                            try
+                            {
+                                if (hit.collider.gameObject.CompareTag("Factory"))
+                                {
+                                    GameObject target = hit.collider.gameObject;
+                                    Destroy(target.GetComponent<Factory>().outputBeltObject);
+                                    Destroy(target.GetComponent<Factory>().inputBeltObject[0]);
+                                    Destroy(target.GetComponent<Factory>().inputBeltObject[1]);
+                                    Destroy(target);
+                                    factoryCount++;
+                                    factoryButton.text = $"Factories:\n{factoryCount}";
+                                }
+                                if (hit.collider.gameObject.CompareTag("Foundry"))
+                                {
+                                    GameObject target = hit.collider.gameObject;
+                                    Destroy(target.GetComponent<Foundry>().outputBeltObject); //foundries only give out one output and do not take inputs unlike factories
+                                    Destroy(target);
+                                    foundryCount++;
+                                    foundryButton.text = $"Foundries:\n{foundryCount}";
+                                }
+                                break;
+                            }
+                            catch (System.NullReferenceException)
+                            {
+                                return; //allows ui buttons to be pressed without spawning a factory
+                            }
+
                         }
-                        break;
-                    }
                 }
             }
         }

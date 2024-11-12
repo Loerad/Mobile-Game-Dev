@@ -7,7 +7,7 @@ public enum Mode
     None,
     Factory,
     Foundry,
-    Belt,
+    Delete,
 } 
 
 public static class State 
