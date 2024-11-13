@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Unit : MonoBehaviour
@@ -8,11 +9,12 @@ public class Unit : MonoBehaviour
     public Vector2 origin;
     public Vector3 destination;
     public int value;
+    public TextMeshPro valueGUI;
     private bool collected;
     // Start is called before the first frame update
     void Start()
     {
-        
+        valueGUI.text = value.ToString();
     }
 
     // Update is called once per frame

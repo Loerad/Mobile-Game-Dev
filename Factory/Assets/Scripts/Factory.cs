@@ -72,13 +72,20 @@ public class Factory : MonoBehaviour
         while (true)
         {
             yield return new WaitForSecondsRealtime(productionSpeed);
-            if (units.Count > 1 && outputBeltObject == null || outputBeltObject.GetComponent<Belt>().a == null ) { continue; } //when the arrow is placed
+            if (outputBeltObject == null || outputBeltObject.GetComponent<Belt>().a == null ) { continue; } //when the arrow is placed
             int fabUnitValue;
-            fabUnitValue = AddValues(units[0], units[1]);
-            Destroy(units[1].gameObject);
-            units.Remove(units[1]);//remove the added values
-            Destroy(units[0].gameObject);
-            units.Remove(units[0]);
+            if (units.Count > 1)
+            {
+                fabUnitValue = AddValues(units[0], units[1]);
+                Destroy(units[1].gameObject);
+                units.Remove(units[1]);//remove the added values
+                Destroy(units[0].gameObject);
+                units.Remove(units[0]);
+            }
+            else
+            {
+                continue;
+            } 
 
             Unit u = Instantiate(unit, outputBelt + new Vector3(0, 0, -1.2f), Quaternion.identity, outputBeltObject.transform).GetComponent<Unit>();
             u.origin = outputBelt;

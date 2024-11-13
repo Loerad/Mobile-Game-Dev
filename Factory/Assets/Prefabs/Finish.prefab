@@ -196,6 +196,7 @@ GameObject:
   - component: {fileID: 2780527253806203964}
   - component: {fileID: -7290910467280768581}
   - component: {fileID: -5978275035093391527}
+  - component: {fileID: 1625007012102323647}
   m_Layer: 0
   m_Name: Finish
   m_TagString: Finish
@@ -330,4 +331,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputBelt: {x: 0, y: 0, z: 0}
   inputBeltObject: {fileID: 0}
+  winValue: 0
   winAmount: {fileID: 6361845078994112039}
+--- !u!114 &1625007012102323647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8993945457506504816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PanelSettings: {fileID: 11400000, guid: d4d6589ab421aba42b6948dbf580aa04, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 0}
+  m_SortingOrder: 0

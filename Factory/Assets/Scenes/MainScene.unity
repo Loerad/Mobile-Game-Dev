@@ -355,10 +355,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -5978275035093391527, guid: 948739c31e874564eae2cf7409bf71f8, type: 3}
-      propertyPath: winAmount
+    - target: {fileID: 1625007012102323647, guid: 948739c31e874564eae2cf7409bf71f8, type: 3}
+      propertyPath: sourceAsset
       value: 
-      objectReference: {fileID: 930808613}
+      objectReference: {fileID: 9197481963319205126, guid: f6e1208adaad2c44d9dac80020fc590a, type: 3}
     - target: {fileID: 4962359020845329884, guid: 948739c31e874564eae2cf7409bf71f8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -369,7 +369,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4962359020845329884, guid: 948739c31e874564eae2cf7409bf71f8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 4962359020845329884, guid: 948739c31e874564eae2cf7409bf71f8, type: 3}
       propertyPath: m_LocalRotation.w
@@ -411,17 +411,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 948739c31e874564eae2cf7409bf71f8, type: 3}
---- !u!114 &930808613 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6361845078994112039, guid: 948739c31e874564eae2cf7409bf71f8, type: 3}
-  m_PrefabInstance: {fileID: 930808612}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1339162668
 GameObject:
   m_ObjectHideFlags: 0
