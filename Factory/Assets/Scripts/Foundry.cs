@@ -12,6 +12,7 @@ public class Foundry : MonoBehaviour
     private bool active;
     public float productionAmount = 1;
     public float productionSpeed = 4;
+    public int value = 1;
 
     void LateUpdate()
     {
@@ -37,10 +38,11 @@ public class Foundry : MonoBehaviour
         {
             yield return new WaitForSecondsRealtime(productionSpeed);
             if (outputBeltObject == null ||outputBeltObject.GetComponent<Belt>().a == null) { continue; } //when the arrow is placed
-            GameObject u = Instantiate(unit, outputBelt + new Vector3(0,0,-1.2f), Quaternion.identity, outputBeltObject.transform);
-            u.GetComponent<Unit>().origin = outputBelt;
-            u.GetComponent<Unit>().destination = outputBeltObject.GetComponent<Belt>().lr.GetPosition(1);
-            u.GetComponent<Unit>().belt = outputBeltObject;
+            Unit u = Instantiate(unit, outputBelt + new Vector3(0,0,-1.2f), Quaternion.identity, outputBeltObject.transform).GetComponent<Unit>();
+            u.origin = outputBelt;
+            u.destination = outputBeltObject.GetComponent<Belt>().lr.GetPosition(1);
+            u.target = outputBeltObject.GetComponent<Belt>().target;
+            u.value = value;
         }
     }
 }

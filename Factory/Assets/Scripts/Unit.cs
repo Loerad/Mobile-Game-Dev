@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    public GameObject belt;
+    public GameObject target;
     public Vector2 origin;
     public Vector3 destination;
+    public int value;
+    private bool collected;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,11 +20,18 @@ public class Unit : MonoBehaviour
     {
         float step = 1 * Time.deltaTime;
         transform.position = Vector2.MoveTowards(transform.position, destination, step);
-        transform.position = new Vector3(transform.position.x, transform.position.y , -1.2f);
-        if (transform.position == destination)
+        transform.position = new Vector3(transform.position.x, transform.position.y , -1.2f);  
+        if (transform.position == target.transform.position + new Vector3(0,0,-0.2f) && !collected)
         {
-            Destroy(gameObject);
-            //belt.GetComponent<Belt>().target.GetComponent<Factory>()
+            if (target.CompareTag("Factory"))
+            {
+                target.GetComponent<Factory>().Intake(this);
+            }
+            else
+            {
+                target.GetComponent<Finish>().CheckWin(this);
+            }
+            collected = true;
         }
     }
 }

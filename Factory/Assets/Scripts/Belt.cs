@@ -74,6 +74,26 @@ public class Belt : MonoBehaviour
                             enabled = false;
                         }
                     }
+                    else if (hit.collider.gameObject.CompareTag("Finish"))
+                    {
+                        target = hit.collider.gameObject;
+                        Vector3 inputPoint = target.transform.position;
+                        if (target.GetComponent<Finish>().inputBelt != Vector3.zero) //is there a belt in the finish?
+                        {
+                            Destroy(gameObject); return; //its full, destroy yourself now!
+                        }
+                        else
+                        {
+                            lr.SetPosition(1, inputPoint);
+
+                            lr.useWorldSpace = true;
+
+                            target.GetComponent<Finish>().inputBelt = lr.GetPosition(1);
+                            target.GetComponent<Finish>().inputBeltObject = gameObject;
+
+                            enabled = false;
+                        }
+                    }
                     else
                     {
                         Destroy(gameObject); return;

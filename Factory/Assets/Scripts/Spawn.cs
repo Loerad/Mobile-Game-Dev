@@ -100,6 +100,10 @@ public class Spawn : MonoBehaviour
                                     {
                                         return;
                                     }
+                                    else if (hit.collider.gameObject.CompareTag("Finish"))
+                                    {
+                                        return;
+                                    }
                                     else
                                     {
                                         if (factoryCount <= 0)
@@ -140,6 +144,10 @@ public class Spawn : MonoBehaviour
                                         target.GetComponent<Foundry>().outputBeltObject = currentbelt;
                                     }
                                     else if (hit.collider.gameObject.CompareTag("Factory"))
+                                    {
+                                        return;
+                                    }
+                                    else if (hit.collider.gameObject.CompareTag("Finish"))
                                     {
                                         return;
                                     }
