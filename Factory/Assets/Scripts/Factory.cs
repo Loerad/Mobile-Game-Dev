@@ -1,9 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Factory : MonoBehaviour
 {
+    public List<Unit> units = new List<Unit>();
+    public TextMeshPro unitCount;
+    public Unit unit;
+    private float productionSpeed = 2;
     public List<Vector3> inputBelt = new List<Vector3>();
     public Vector3 outputBelt;
     public List<GameObject> inputBeltObject = new List<GameObject>();
@@ -39,5 +45,52 @@ public class Factory : MonoBehaviour
         {
             outputBelt = Vector3.zero;
         }
+        
+    }
+
+    public void Intake(Unit newUnit)
+    {
+        if (units.Count >= 10)
+        {
+            Destroy(newUnit.gameObject);
+            return;
+        }
+        units.Add(newUnit);
+        unitCount.text = units.Count.ToString();
+        if (units.Count > 1)
+        {
+            StartCoroutine(Production());
+        }
+        else
+        {
+            StopCoroutine(Production());
+        }
+    }
+
+    private IEnumerator Production()
+    {
+        while (true)
+        {
+            yield return new WaitForSecondsRealtime(productionSpeed);
+            if (units.Count > 1 && outputBeltObject == null || outputBeltObject.GetComponent<Belt>().a == null ) { continue; } //when the arrow is placed
+            int fabUnitValue;
+            fabUnitValue = AddValues(units[0], units[1]);
+            Destroy(units[1].gameObject);
+            units.Remove(units[1]);//remove the added values
+            Destroy(units[0].gameObject);
+            units.Remove(units[0]);
+
+            Unit u = Instantiate(unit, outputBelt + new Vector3(0, 0, -1.2f), Quaternion.identity, outputBeltObject.transform).GetComponent<Unit>();
+            u.origin = outputBelt;
+            u.destination = outputBeltObject.GetComponent<Belt>().lr.GetPosition(1);
+            u.target = outputBeltObject.GetComponent<Belt>().target;
+            u.value = fabUnitValue;
+            unitCount.text = units.Count.ToString();
+        }
+    }
+    private int AddValues(Unit unit1, Unit unit2)
+    {
+        int sum = unit1.value + unit2.value;
+        return sum;
     }
 }
