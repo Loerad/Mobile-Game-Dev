@@ -8,6 +8,8 @@ public class Spawn : MonoBehaviour
 {
     [HideInInspector]
     public Vector3 touchPosition;
+    private StyleColor active = new StyleColor(new Color32(0,255,0,255));
+    private StyleColor inactive = new StyleColor(new Color32(149,149,149,255));
     [Header("Factory")]
     public GameObject factory;
     private Button factoryButton;
@@ -25,11 +27,32 @@ public class Spawn : MonoBehaviour
     {
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
         factoryButton = root.Q<Button>("FactoryButton");
-        factoryButton.RegisterCallback<ClickEvent>(ev => State.mode = Mode.Factory);
+        factoryButton.RegisterCallback<ClickEvent>(ev => 
+            { 
+                State.mode = Mode.Factory; 
+                factoryButton.style.backgroundColor = active;
+                deleteButton.style.backgroundColor = inactive;
+                foundryButton.style.backgroundColor = inactive; 
+            } 
+        );
         deleteButton = root.Q<Button>("DeleteButton");
-        deleteButton.RegisterCallback<ClickEvent>(ev => State.mode = Mode.Delete);
+        deleteButton.RegisterCallback<ClickEvent>(ev => 
+            { 
+                State.mode = Mode.Delete; 
+                factoryButton.style.backgroundColor = inactive;
+                deleteButton.style.backgroundColor = active;
+                foundryButton.style.backgroundColor = inactive; 
+            } 
+        );
         foundryButton = root.Q<Button>("FoundryButton");
-        foundryButton.RegisterCallback<ClickEvent>(ev => State.mode = Mode.Foundry);
+        foundryButton.RegisterCallback<ClickEvent>(ev => 
+            { 
+                State.mode = Mode.Foundry; 
+                factoryButton.style.backgroundColor = inactive;
+                deleteButton.style.backgroundColor = inactive;
+                foundryButton.style.backgroundColor = active; 
+            } 
+        );
         factoryButton.text = $"Factories:\n{factoryCount}";
         deleteButton.text = "Delete";
         foundryButton.text = $"Foundries:\n{foundryCount}";
