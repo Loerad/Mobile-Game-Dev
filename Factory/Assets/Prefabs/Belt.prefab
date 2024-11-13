@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6212384834678367561}
   - component: {fileID: 9062687939044279555}
   - component: {fileID: 572255165439335939}
+  - component: {fileID: 9190445495446909102}
   m_Layer: 0
   m_Name: Belt
   m_TagString: Belt
@@ -128,7 +129,7 @@ LineRenderer:
       m_NumAlphaKeys: 2
     numCornerVertices: 0
     numCapVertices: 0
-    alignment: 0
+    alignment: 1
     textureMode: 0
     textureScale: {x: 1, y: 1}
     shadowBias: 0.5
@@ -150,3 +151,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawn: {fileID: 0}
+  directionVector: {x: 0, y: 0, z: 0}
+  arrow: {fileID: 2412654543910095227, guid: 061dbb86794c04b4ab2ac02f11ff7c34, type: 3}
+--- !u!210 &9190445495446909102
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1848465253590045119}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 1
+  m_SortAtRoot: 0
