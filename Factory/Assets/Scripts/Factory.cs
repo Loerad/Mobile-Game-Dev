@@ -1,15 +1,25 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
+public enum FactoryType
+{
+    Add,
+    Minus,
+    Divide,
+    Multiply,
+}
 public class Factory : MonoBehaviour
 {
+    
     private Unit intakeUnit1;
     private Unit intakeUnit2;
     [SerializeField]
     private TextMeshPro intakeNumbers;
+    public FactoryType factoryType = FactoryType.Add;
     public Unit unit;
     private float productionSpeed = 2;
     private bool safeToProduce;
@@ -161,7 +171,7 @@ public class Factory : MonoBehaviour
         Debug.Log($"Factory at {transform.position} has entered production");
         yield return new WaitForSecondsRealtime(productionSpeed);
         int fabUnitValue;
-        fabUnitValue = AddValues(intakeUnit1, intakeUnit2);
+        fabUnitValue = ResultBasedOnEnum(intakeUnit1.value, intakeUnit2.value);
         Destroy(intakeUnit1.gameObject);
         Destroy(intakeUnit2.gameObject);
 
@@ -174,11 +184,61 @@ public class Factory : MonoBehaviour
         u.value = fabUnitValue;
         intakeNumbers.text = "[0,0]";
     }
-
-    private int AddValues(Unit unit1, Unit unit2)
+    private int ResultBasedOnEnum(int u1, int u2)
     {
-        int sum = unit1.value + unit2.value;
+        int result = factoryType switch
+        {
+            FactoryType.Add => AddValues(u1, u2),
+            FactoryType.Minus => SubtractValues(u1, u2),
+            FactoryType.Divide => DivideValues(u1, u2),
+            FactoryType.Multiply => MultiplyValues(u1, u2),
+            _ => throw new Exception("The Factory does not have a type"),
+
+        };
+        return result;
+    }
+    private int AddValues(int a, int b)
+    {
+        int sum = a + b;
         return sum;
+    }
+    private int SubtractValues(int a, int b)
+    {
+        if (a < b)
+        {
+            return b - a;
+        }
+        else if (a > b)
+        {
+            return a - b;
+        }
+        else
+        {
+            return 1;
+        }
+    }
+    private int DivideValues(int a, int b)
+    {
+        if (a < b)
+        {
+            return b / a;
+        }
+        else if(a > b)
+        {
+            return a / b;
+        }
+        else if (a == 0 || b == 0) //error prevention
+        {
+            return 1;
+        }
+        else 
+        {
+            return 1;
+        }
+    }
+    private int MultiplyValues(int a, int b)
+    {
+        return a * b;
     }
 
     private void ChangeIndicator(GameObject indicator, bool state)
