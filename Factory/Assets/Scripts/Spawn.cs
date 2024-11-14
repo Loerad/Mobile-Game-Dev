@@ -9,11 +9,19 @@ public class Spawn : MonoBehaviour
     [HideInInspector]
     public Vector3 touchPosition;
     private StyleColor active = new StyleColor(new Color32(0,255,0,255));
-    private StyleColor inactive = new StyleColor(new Color32(149,149,149,255));
+    private StyleColor inactive = new StyleColor(new Color32(100,100,100,255));
+    private List<Button> mainButtons = new List<Button>();
+    private List<Button> subButtons = new List<Button>();
     [Header("Factory")]
     public GameObject factory;
     private Button factoryButton;
-    public int factoryCount = 5;
+    public int factoryCount = 10;
+    private FactoryType factoryType;
+    private VisualElement factoryChoice;
+    private Button plusButton;
+    private Button minusButton;
+    private Button divideButton;
+    private Button multiplyButton;
 
     [Header("Belt")]
 
@@ -22,41 +30,109 @@ public class Spawn : MonoBehaviour
     [Header("Foundry")]
     public GameObject foundry;
     private Button foundryButton;
-    public int foundryCount = 5;
+    public int foundryCount = 10;
     void Awake()
     {
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
+        factoryChoice = root.Q<VisualElement>("FactoryChoice");
+        factoryChoice.visible = false;
         factoryButton = root.Q<Button>("FactoryButton");
         factoryButton.RegisterCallback<ClickEvent>(ev => 
             { 
                 State.mode = Mode.Factory; 
-                factoryButton.style.backgroundColor = active;
-                deleteButton.style.backgroundColor = inactive;
-                foundryButton.style.backgroundColor = inactive; 
+                SwitchButton(factoryButton, false);
+                factoryChoice.visible = true;
             } 
         );
         deleteButton = root.Q<Button>("DeleteButton");
         deleteButton.RegisterCallback<ClickEvent>(ev => 
             { 
                 State.mode = Mode.Delete; 
-                factoryButton.style.backgroundColor = inactive;
-                deleteButton.style.backgroundColor = active;
-                foundryButton.style.backgroundColor = inactive; 
+                SwitchButton(deleteButton, false);
             } 
         );
         foundryButton = root.Q<Button>("FoundryButton");
         foundryButton.RegisterCallback<ClickEvent>(ev => 
             { 
                 State.mode = Mode.Foundry; 
-                factoryButton.style.backgroundColor = inactive;
-                deleteButton.style.backgroundColor = inactive;
-                foundryButton.style.backgroundColor = active; 
+                SwitchButton(foundryButton, false);
             } 
         );
         factoryButton.text = $"Factories:\n{factoryCount}";
         deleteButton.text = "Delete";
         foundryButton.text = $"Foundries:\n{foundryCount}";
 
+        plusButton = root.Q<Button>("Plus");
+        plusButton.RegisterCallback<ClickEvent>(ev =>
+        {
+            factoryType = FactoryType.Add;
+            SwitchButton(plusButton, true);
+            factoryChoice.visible = false;
+        });
+
+        minusButton = root.Q<Button>("Minus");
+        minusButton.RegisterCallback<ClickEvent>(ev =>
+        {
+            factoryType = FactoryType.Minus;
+            SwitchButton(minusButton, true);
+            factoryChoice.visible = false;
+        });
+
+        divideButton = root.Q<Button>("Divide");
+        divideButton.RegisterCallback<ClickEvent>(ev =>
+        {
+            factoryType = FactoryType.Divide;
+            SwitchButton(divideButton, true);
+            factoryChoice.visible = false;
+        });
+
+        multiplyButton = root.Q<Button>("Multiply");
+        multiplyButton.RegisterCallback<ClickEvent>(ev =>
+        {
+            factoryType = FactoryType.Multiply;
+            SwitchButton(multiplyButton, true);
+            factoryChoice.visible = false;
+        });
+
+        mainButtons.Add(factoryButton); //this is gross but I can't think of another way :P
+        mainButtons.Add(deleteButton);
+        mainButtons.Add(factoryButton);
+        subButtons.Add(divideButton);
+        subButtons.Add(minusButton);
+        subButtons.Add(multiplyButton);
+        subButtons.Add(plusButton);
+    }
+
+    void SwitchButton(Button button, bool sub)
+    {
+        if (sub)
+        {
+            foreach (Button b in subButtons)
+            {
+                if (b == button)
+                {
+                    b.style.unityBackgroundImageTintColor = active;
+                }
+                else
+                {
+                    b.style.unityBackgroundImageTintColor = inactive;
+                }
+            }
+        }
+        else
+        {
+            foreach (Button b in mainButtons)
+            {
+                if (b == button)
+                {
+                    b.style.backgroundColor = active;
+                }
+                else
+                {
+                    b.style.backgroundColor = inactive;
+                }
+            }
+        }
     }
 
     void Update()
@@ -100,7 +176,8 @@ public class Spawn : MonoBehaviour
                                         }
                                         factoryCount--;
                                         factoryButton.text = $"Factories:\n{factoryCount}";
-                                        Instantiate(factory, touchPosition, Quaternion.identity);
+                                        Factory f = Instantiate(factory, touchPosition, Quaternion.identity).GetComponent<Factory>();
+                                        f.factoryType = factoryType;
                                     }
                                     break;
                                 }
@@ -196,6 +273,7 @@ public class Spawn : MonoBehaviour
         target.GetComponent<Factory>().outputBelt = currentbelt.GetComponent<LineRenderer>().GetPosition(0);
         target.GetComponent<Factory>().outputBeltObject = currentbelt;
     }
+
     void DrawLineFromFoundry(RaycastHit2D hit)
     {
         GameObject target = hit.collider.gameObject;

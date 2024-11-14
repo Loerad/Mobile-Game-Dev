@@ -4,13 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public enum FactoryType
-{
-    Add,
-    Minus,
-    Divide,
-    Multiply,
-}
+
 public class Factory : MonoBehaviour
 {
     
@@ -18,7 +12,7 @@ public class Factory : MonoBehaviour
     private Unit intakeUnit2;
     [SerializeField]
     private TextMeshPro intakeNumbers;
-    public FactoryType factoryType = FactoryType.Add;
+    public FactoryType factoryType;
     public Unit unit;
     public SpriteRenderer factoryIcon;
 
@@ -41,7 +35,7 @@ public class Factory : MonoBehaviour
     private Color32 indicatorOn = new Color32(255, 254, 0, 255);
     private Color32 indicatorOff = new Color32(130, 130, 130, 255);
 
-    void Awake()
+    void Start()
     {
         inputBelt.Capacity = 2;
         inputBeltObject.Capacity = 2;

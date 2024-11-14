@@ -9,8 +9,16 @@ public enum Mode
     Foundry,
     Delete,
 } 
+public enum FactoryType
+{
+    Add,
+    Minus,
+    Divide,
+    Multiply,
+}
 
 public static class State 
 {
     public static Mode mode = Mode.None;
+    public static FactoryType factoryType = FactoryType.Add;
 }

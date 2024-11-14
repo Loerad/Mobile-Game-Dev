@@ -5,4 +5,10 @@
         <ui:Button text="Button" parse-escape-sequences="true" display-tooltip-when-elided="true" name="DeleteButton" class="button" />
         <ui:Button text="Button" parse-escape-sequences="true" display-tooltip-when-elided="true" name="FoundryButton" class="button" />
     </ui:VisualElement>
+    <ui:VisualElement name="FactoryChoice" style="flex-grow: 1; flex-direction: row; align-items: flex-start; justify-content: space-between; position: absolute; width: 100%; height: 15%; background-color: rgba(46, 46, 46, 0.69);">
+        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="Plus" class="factoryButton" style="background-image: resource(&apos;plus&apos;); margin-left: 5%;" />
+        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="Minus" class="factoryButton" style="background-image: resource(&apos;minus&apos;);" />
+        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="Divide" class="factoryButton" style="background-image: resource(&apos;divide&apos;);" />
+        <ui:Button text="&#10;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Multiply" class="factoryButton" style="margin-right: 5%; background-image: resource(&apos;multiply&apos;);" />
+    </ui:VisualElement>
 </ui:UXML>
