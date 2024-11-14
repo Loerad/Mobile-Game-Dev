@@ -24,7 +24,7 @@ public class Finish : MonoBehaviour
 
     void Start()
     {
-        winValue = Random.Range(5, 10);
+        winValue = Random.Range(17, 54);
         winAmount.text = winValue.ToString();
     }
 

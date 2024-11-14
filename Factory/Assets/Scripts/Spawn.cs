@@ -104,6 +104,11 @@ public class Spawn : MonoBehaviour
         subButtons.Add(plusButton);
     }
 
+    void Start()
+    {
+        Application.targetFrameRate = 90;
+    }
+    
     void SwitchButton(Button button, bool sub)
     {
         if (sub)
