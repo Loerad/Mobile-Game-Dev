@@ -13,37 +13,67 @@ public class Foundry : MonoBehaviour
     public float productionAmount = 1;
     public float productionSpeed = 4;
     public int value = 1;
+    public GameObject indicator;
+    private bool indicatorState;
+    private Color32 indicatorOn = new Color32(255, 254, 0, 255);
+    private Color32 indicatorOff = new Color32(130, 130, 130, 255);
+    private bool safeToProduce;
+
+    void Start()
+    {
+        safeToProduce = true;
+    }
 
     void LateUpdate()
     {
         if (outputBeltObject == null)
         {
-            //if (active) { StopCoroutine(Production()); active = false;}
-            
+            if (indicatorState) 
+            {
+                indicatorState = false;
+                ChangeIndicator(indicator, indicatorState);
+            }
             outputBelt = Vector3.zero;
         }
         else
         {
-            //if (!active) { StartCoroutine(Production()); active = true;}
+            if (outputBeltObject.GetComponent<Belt>().a != null) //when the belt is connected the arrow gets placed
+            {
+                if (!indicatorState)
+                {
+                    indicatorState = true;
+                    ChangeIndicator(indicator, indicatorState);
+                }
+                if (safeToProduce)
+                {
+                    StartCoroutine(Production());
+                }
+            }
         }
-    }
-    void Start()
-    {
-        StartCoroutine(Production());
     }
 
     IEnumerator Production()
     {
-        while(true)
+        safeToProduce = false;
+        yield return new WaitForSecondsRealtime(productionSpeed);
+        
+        Unit u = Instantiate(unit, outputBelt + new Vector3(0,0,-1.2f), Quaternion.identity, outputBeltObject.transform).GetComponent<Unit>();
+        u.origin = outputBelt;
+        u.destination = outputBeltObject.GetComponent<Belt>().lr.GetPosition(1);
+        u.target = outputBeltObject.GetComponent<Belt>().target;
+        u.belt = outputBeltObject;
+        u.value = value;
+        safeToProduce = true;
+    }
+    private void ChangeIndicator(GameObject indicator, bool state)
+    {
+        if (state)
+        { 
+            indicator.GetComponent<SpriteRenderer>().color = indicatorOn;
+        }
+        else
         {
-            yield return new WaitForSecondsRealtime(productionSpeed);
-            if (outputBeltObject == null ||outputBeltObject.GetComponent<Belt>().a == null) { continue; } //when the arrow is placed
-            Unit u = Instantiate(unit, outputBelt + new Vector3(0,0,-1.2f), Quaternion.identity, outputBeltObject.transform).GetComponent<Unit>();
-            u.origin = outputBelt;
-            u.destination = outputBeltObject.GetComponent<Belt>().lr.GetPosition(1);
-            u.target = outputBeltObject.GetComponent<Belt>().target;
-            u.belt = outputBeltObject;
-            u.value = value;
+            indicator.GetComponent<SpriteRenderer>().color = indicatorOff;
         }
     }
 }

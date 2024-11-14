@@ -31,7 +31,7 @@ public class Factory : MonoBehaviour
     public Vector3 outputBelt;
     public GameObject outputBeltObject;
     [Header("Indicators")]
-    public List<GameObject> indicators = new List<GameObject>(); //0 is first belt indicator, 1 is second, 2 is output //this is set in editor and should have anything added or removed
+    public List<GameObject> indicators = new List<GameObject>(); //0 is first belt indicator, 1 is second, 2 is output //this is set in editor and should not have anything added or removed
     private bool indicator0State, indicator1State, indicator2State;
     private Color32 indicatorOn = new Color32(255, 254, 0, 255);
     private Color32 indicatorOff = new Color32(130, 130, 130, 255);
