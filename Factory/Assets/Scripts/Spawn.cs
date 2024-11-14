@@ -80,25 +80,13 @@ public class Spawn : MonoBehaviour
                             {
                                 if (touch.phase == TouchPhase.Began)
                                 {
-                                    GameObject currentbelt = null;
                                     if (hit.collider.gameObject.CompareTag("Factory"))
                                     {
-                                        GameObject target = hit.collider.gameObject;
-                                        Vector3 outputPoint = target.transform.position;
-
-                                        currentbelt = Instantiate(belt, outputPoint, Quaternion.identity);
-
-                                        if (target.GetComponent<Factory>().outputBelt != Vector3.zero) //do I already have a output belt?
-                                        { Destroy(currentbelt); return; } //yes because that vector is not zero, destroy yourself now!
-
-                                        currentbelt.GetComponent<LineRenderer>().SetPosition(0, outputPoint);
-                                        target.GetComponent<Factory>().outputBelt = currentbelt.GetComponent<LineRenderer>().GetPosition(0);
-                                        target.GetComponent<Factory>().outputBeltObject = currentbelt;
-
+                                        DrawLineFromFactory(hit);
                                     }
                                     else if (hit.collider.gameObject.CompareTag("Foundry"))
                                     {
-                                        return;
+                                        DrawLineFromFoundry(hit);
                                     }
                                     else if (hit.collider.gameObject.CompareTag("Finish"))
                                     {
@@ -129,23 +117,13 @@ public class Spawn : MonoBehaviour
                             {
                                 if (touch.phase == TouchPhase.Began)
                                 {
-                                    GameObject currentbelt = null;
                                     if (hit.collider.gameObject.CompareTag("Foundry"))
                                     {
-                                        GameObject target = hit.collider.gameObject;
-                                        Vector3 outputPoint = target.transform.position;
-
-                                        currentbelt = Instantiate(belt, outputPoint, Quaternion.identity);
-
-                                        if (target.GetComponent<Foundry>().outputBelt != Vector3.zero) { Destroy(currentbelt); return; } //same as above
-
-                                        currentbelt.GetComponent<LineRenderer>().SetPosition(0, outputPoint);
-                                        target.GetComponent<Foundry>().outputBelt = currentbelt.GetComponent<LineRenderer>().GetPosition(0);
-                                        target.GetComponent<Foundry>().outputBeltObject = currentbelt;
+                                        DrawLineFromFoundry(hit);
                                     }
                                     else if (hit.collider.gameObject.CompareTag("Factory"))
                                     {
-                                        return;
+                                        DrawLineFromFactory(hit);
                                     }
                                     else if (hit.collider.gameObject.CompareTag("Finish"))
                                     {
@@ -200,7 +178,34 @@ public class Spawn : MonoBehaviour
 
                         }
                 }
+
             }
         }
+    }
+
+    void DrawLineFromFactory(RaycastHit2D hit)
+    {
+        GameObject target = hit.collider.gameObject;
+        Vector3 outputPoint = target.transform.position;
+        GameObject currentbelt = Instantiate(belt, outputPoint, Quaternion.identity);
+
+        if (target.GetComponent<Factory>().outputBelt != Vector3.zero) //do I already have a output belt?
+        { Destroy(currentbelt); return; } //yes because that vector is not zero, destroy yourself now!
+
+        currentbelt.GetComponent<LineRenderer>().SetPosition(0, outputPoint);
+        target.GetComponent<Factory>().outputBelt = currentbelt.GetComponent<LineRenderer>().GetPosition(0);
+        target.GetComponent<Factory>().outputBeltObject = currentbelt;
+    }
+    void DrawLineFromFoundry(RaycastHit2D hit)
+    {
+        GameObject target = hit.collider.gameObject;
+        Vector3 outputPoint = target.transform.position;
+        GameObject currentbelt = Instantiate(belt, outputPoint, Quaternion.identity);
+
+        if (target.GetComponent<Foundry>().outputBelt != Vector3.zero) { Destroy(currentbelt); return; } //same as above
+
+        currentbelt.GetComponent<LineRenderer>().SetPosition(0, outputPoint);
+        target.GetComponent<Foundry>().outputBelt = currentbelt.GetComponent<LineRenderer>().GetPosition(0);
+        target.GetComponent<Foundry>().outputBeltObject = currentbelt;
     }
 }

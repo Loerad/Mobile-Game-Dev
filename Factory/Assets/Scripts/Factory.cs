@@ -105,10 +105,8 @@ public class Factory : MonoBehaviour
                 {
                     StartCoroutine(Production());
                 }
-
             }
         }
-
     }
 
     public void Intake(Unit newUnit, GameObject owningBelt)
