@@ -42,6 +42,7 @@ public class Foundry : MonoBehaviour
             u.origin = outputBelt;
             u.destination = outputBeltObject.GetComponent<Belt>().lr.GetPosition(1);
             u.target = outputBeltObject.GetComponent<Belt>().target;
+            u.belt = outputBeltObject;
             u.value = value;
         }
     }

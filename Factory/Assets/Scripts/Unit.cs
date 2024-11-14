@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
+    public GameObject belt;
     public GameObject target;
     public Vector2 origin;
     public Vector3 destination;
@@ -27,7 +28,7 @@ public class Unit : MonoBehaviour
         {
             if (target.CompareTag("Factory"))
             {
-                target.GetComponent<Factory>().Intake(this);
+                target.GetComponent<Factory>().Intake(this, belt);
             }
             else
             {
