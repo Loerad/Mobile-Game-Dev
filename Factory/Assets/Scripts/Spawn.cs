@@ -63,6 +63,7 @@ public class Spawn : MonoBehaviour
         foundryButton.text = $"Foundries:\n{foundryCount}";
 
         plusButton = root.Q<Button>("Plus");
+        plusButton.style.unityBackgroundImageTintColor = active;
         plusButton.RegisterCallback<ClickEvent>(ev =>
         {
             factoryType = FactoryType.Add;
