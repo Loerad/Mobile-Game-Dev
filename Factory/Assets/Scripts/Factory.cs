@@ -20,6 +20,7 @@ public class Factory : MonoBehaviour
     private TextMeshPro intakeNumbers;
     public FactoryType factoryType = FactoryType.Add;
     public Unit unit;
+    public SpriteRenderer factoryIcon;
 
     [Header("Production")]
     private float productionSpeed = 2;
@@ -44,6 +45,15 @@ public class Factory : MonoBehaviour
     {
         inputBelt.Capacity = 2;
         inputBeltObject.Capacity = 2;
+        factoryIcon.sprite = factoryType switch
+        {
+            FactoryType.Add => Resources.Load<Sprite>("plus"),
+            FactoryType.Minus => Resources.Load<Sprite>("minus"),
+            FactoryType.Divide => Resources.Load<Sprite>("divide"),
+            FactoryType.Multiply => Resources.Load<Sprite>("multiply"),
+            _ => throw new Exception("The Factory does not have a type"),
+
+        };
     }
 
     void Update()
