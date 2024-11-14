@@ -15,7 +15,7 @@ public class Spawn : MonoBehaviour
     [Header("Factory")]
     public GameObject factory;
     private Button factoryButton;
-    public int factoryCount = 10;
+    private int factoryCount = 10;
     private FactoryType factoryType;
     private VisualElement factoryChoice;
     private Button plusButton;
@@ -30,7 +30,7 @@ public class Spawn : MonoBehaviour
     [Header("Foundry")]
     public GameObject foundry;
     private Button foundryButton;
-    public int foundryCount = 10;
+    private int foundryCount = 10;
     void Awake()
     {
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
@@ -178,6 +178,7 @@ public class Spawn : MonoBehaviour
                                         factoryButton.text = $"Factories:\n{factoryCount}";
                                         Factory f = Instantiate(factory, touchPosition, Quaternion.identity).GetComponent<Factory>();
                                         f.factoryType = factoryType;
+                                        factoryChoice.visible = false;
                                     }
                                     break;
                                 }
@@ -196,7 +197,25 @@ public class Spawn : MonoBehaviour
                                 {
                                     if (hit.collider.gameObject.CompareTag("Foundry"))
                                     {
-                                        DrawLineFromFoundry(hit);
+                                        Foundry f = hit.collider.gameObject.GetComponent<Foundry>();
+                                        if (f.outputBeltObject != null)
+                                        {
+                                            if (f.outputBeltObject.GetComponent<Belt>().placed != null)
+                                            {
+                                                if (foundryCount <= 0)
+                                                {
+                                                    return;
+                                                }                                               
+                                                f.value++;
+                                                f.valueText.text = f.value.ToString();
+                                                foundryCount--; 
+                                                foundryButton.text = $"Foundries:\n{foundryCount}";
+                                            }
+                                        }
+                                        else
+                                        {
+                                            DrawLineFromFoundry(hit);                                            
+                                        }
                                     }
                                     else if (hit.collider.gameObject.CompareTag("Factory"))
                                     {
@@ -230,20 +249,20 @@ public class Spawn : MonoBehaviour
                             {
                                 if (hit.collider.gameObject.CompareTag("Factory"))
                                 {
-                                    GameObject target = hit.collider.gameObject;
-                                    Destroy(target.GetComponent<Factory>().outputBeltObject);
-                                    Destroy(target.GetComponent<Factory>().inputBeltObject[0]);
-                                    Destroy(target.GetComponent<Factory>().inputBeltObject[1]);
-                                    Destroy(target);
+                                    Factory target = hit.collider.gameObject.GetComponent<Factory>();
                                     factoryCount++;
+                                    Destroy(target.outputBeltObject);
+                                    Destroy(target.inputBeltObject[0]);
+                                    Destroy(target.inputBeltObject[1]);
+                                    Destroy(target.gameObject);
                                     factoryButton.text = $"Factories:\n{factoryCount}";
                                 }
                                 if (hit.collider.gameObject.CompareTag("Foundry"))
                                 {
-                                    GameObject target = hit.collider.gameObject;
-                                    Destroy(target.GetComponent<Foundry>().outputBeltObject); //foundries only give out one output and do not take inputs unlike factories
-                                    Destroy(target);
-                                    foundryCount++;
+                                    Foundry target = hit.collider.gameObject.GetComponent<Foundry>();
+                                    foundryCount += target.value;
+                                    Destroy(target.outputBeltObject); //foundries only give out one output and do not take inputs unlike factories
+                                    Destroy(target.gameObject);
                                     foundryButton.text = $"Foundries:\n{foundryCount}";
                                 }
                                 break;

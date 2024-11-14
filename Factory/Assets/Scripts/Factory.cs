@@ -121,7 +121,7 @@ public class Factory : MonoBehaviour
         }
         else
         {
-            if (outputBeltObject.GetComponent<Belt>().a != null) //when the belt is connected the arrow gets placed
+            if (outputBeltObject.GetComponent<Belt>().placed != null) //when the belt is connected the arrow gets placed
             {
                 if (!indicator2State)
                 {

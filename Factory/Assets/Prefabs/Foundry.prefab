@@ -454,6 +454,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 5933462632054336044, guid: 941d73a667046ff40b95c0bc41cd9b83, type: 3}
+  valueText: {fileID: 6361845078994112039}
   outputBelt: {x: 0, y: 0, z: 0}
   outputBeltObject: {fileID: 0}
   productionAmount: 1

@@ -6,6 +6,7 @@ using UnityEngine;
 public class Foundry : MonoBehaviour
 {
     public GameObject unit;
+    public TextMeshPro valueText;
 
     [Header("Output")]
     public Vector3 outputBelt;
@@ -52,7 +53,7 @@ public class Foundry : MonoBehaviour
         }
         else
         {
-            if (outputBeltObject.GetComponent<Belt>().a != null) //when the belt is connected the arrow gets placed
+            if (outputBeltObject.GetComponent<Belt>().placed != null) //when the belt is connected the arrow gets placed
             {
                 if (!indicatorState)
                 {
