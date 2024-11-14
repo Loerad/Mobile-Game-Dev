@@ -12,6 +12,7 @@ public class Spawn : MonoBehaviour
     private StyleColor inactive = new StyleColor(new Color32(100,100,100,255));
     private List<Button> mainButtons = new List<Button>();
     private List<Button> subButtons = new List<Button>();
+    private VisualElement root;
     [Header("Factory")]
     public GameObject factory;
     private Button factoryButton;
@@ -33,7 +34,12 @@ public class Spawn : MonoBehaviour
     private int foundryCount = 10;
     void Awake()
     {
-        VisualElement root = GetComponent<UIDocument>().rootVisualElement;
+        root = GetComponent<UIDocument>().rootVisualElement;
+    }
+
+    void Start()
+    {
+        Application.targetFrameRate = 90;
         factoryChoice = root.Q<VisualElement>("FactoryChoice");
         factoryChoice.visible = false;
         factoryButton = root.Q<Button>("FactoryButton");
@@ -97,16 +103,11 @@ public class Spawn : MonoBehaviour
 
         mainButtons.Add(factoryButton); //this is gross but I can't think of another way :P
         mainButtons.Add(deleteButton);
-        mainButtons.Add(factoryButton);
+        mainButtons.Add(foundryButton);
         subButtons.Add(divideButton);
         subButtons.Add(minusButton);
         subButtons.Add(multiplyButton);
         subButtons.Add(plusButton);
-    }
-
-    void Start()
-    {
-        Application.targetFrameRate = 90;
     }
     
     void SwitchButton(Button button, bool sub)
@@ -143,6 +144,7 @@ public class Spawn : MonoBehaviour
 
     void Update()
     {
+        foundryButton.style.unityBackgroundImageTintColor = active;
         foreach (Touch touch in Input.touches)
         {
             //https://discussions.unity.com/t/best-way-to-detect-touch-on-a-gameobject/157075/2
