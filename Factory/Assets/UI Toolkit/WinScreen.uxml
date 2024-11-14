@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement name="Screen" style="flex-grow: 1; flex-direction: column; align-self: stretch; align-items: center; background-color: rgba(123, 122, 122, 0.63);">
+    <ui:VisualElement name="Screen" style="flex-grow: 1; flex-direction: column; align-self: stretch; align-items: center; background-color: rgba(123, 122, 122, 0.63); visibility: hidden;">
         <ui:Label tabindex="-1" text="You Won!" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 45px; -unity-text-align: middle-center; margin-top: 50%; -unity-font-style: bold;" />
         <ui:Button text="Replay?" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Restart" style="height: 52px; font-size: 20px; margin-top: 50%; -unity-font-style: bold; width: 193px;" />
     </ui:VisualElement>

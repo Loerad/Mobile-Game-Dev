@@ -37,3 +37,9 @@
     margin-bottom: 0;
     -unity-background-image-tint-color: rgb(100, 100, 100);
 }
+
+.text {
+    -unity-text-align: upper-center;
+    color: rgb(195, 193, 176);
+    -unity-paragraph-spacing: 10px;
+}
