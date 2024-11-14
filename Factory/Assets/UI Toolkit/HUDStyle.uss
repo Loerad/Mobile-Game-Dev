@@ -13,7 +13,7 @@
 }
 
 .factoryButton {
-    height: 60%;
+    height: 66%;
     margin-top: 10%;
     width: 20%;
     border-top-left-radius: 10%;
