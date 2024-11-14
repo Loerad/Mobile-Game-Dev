@@ -1,8 +1,8 @@
 .button {
     margin-top: 10%;
-    margin-right: 5%;
+    margin-right: 2.5%;
     margin-bottom: 5%;
-    margin-left: 5%;
+    margin-left: 2.5%;
     width: 20%;
     height: 10%;
     border-top-left-radius: 10%;
@@ -10,6 +10,7 @@
     border-bottom-right-radius: 10%;
     border-bottom-left-radius: 10%;
     font-size: 60%;
+    background-color: rgb(100, 100, 100);
 }
 
 .factoryButton {
