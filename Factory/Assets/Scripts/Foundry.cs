@@ -5,14 +5,21 @@ using UnityEngine;
 
 public class Foundry : MonoBehaviour
 {
+    public GameObject unit;
 
+    [Header("Output")]
     public Vector3 outputBelt;
     public GameObject outputBeltObject;
-    public GameObject unit;
-    private bool active;
+
+    [Header("Production")]
     public float productionAmount = 1;
     public float productionSpeed = 4;
+    private float productionPercent;
+    public GameObject progressBar;
+    private bool producing;
     public int value = 1;
+
+    [Header("Indicator")]
     public GameObject indicator;
     private bool indicatorState;
     private Color32 indicatorOn = new Color32(255, 254, 0, 255);
@@ -22,6 +29,14 @@ public class Foundry : MonoBehaviour
     void Start()
     {
         safeToProduce = true;
+    }
+
+    void Update()
+    {
+        if (producing)
+        {
+            ProgressBar();
+        }
     }
 
     void LateUpdate()
@@ -55,7 +70,9 @@ public class Foundry : MonoBehaviour
     IEnumerator Production()
     {
         safeToProduce = false;
+        producing = true;
         yield return new WaitForSecondsRealtime(productionSpeed);
+        producing = false;
         
         Unit u = Instantiate(unit, outputBelt + new Vector3(0,0,-1.2f), Quaternion.identity, outputBeltObject.transform).GetComponent<Unit>();
         u.origin = outputBelt;
@@ -64,7 +81,11 @@ public class Foundry : MonoBehaviour
         u.belt = outputBeltObject;
         u.value = value;
         safeToProduce = true;
+
+        productionPercent = 0;
+        progressBar.transform.localScale = new Vector3(0, progressBar.transform.localScale.y, progressBar.transform.localScale.z);
     }
+
     private void ChangeIndicator(GameObject indicator, bool state)
     {
         if (state)
@@ -75,5 +96,12 @@ public class Foundry : MonoBehaviour
         {
             indicator.GetComponent<SpriteRenderer>().color = indicatorOff;
         }
+    }
+
+    private void ProgressBar()
+    {
+        productionPercent += Time.deltaTime;
+        float barXValue = productionPercent / productionSpeed; 
+        progressBar.transform.localScale = new Vector3(barXValue, progressBar.transform.localScale.y, progressBar.transform.localScale.z);
     }
 }

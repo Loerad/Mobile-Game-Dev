@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public enum FactoryType
@@ -21,8 +20,13 @@ public class Factory : MonoBehaviour
     private TextMeshPro intakeNumbers;
     public FactoryType factoryType = FactoryType.Add;
     public Unit unit;
+
+    [Header("Production")]
     private float productionSpeed = 2;
     private bool safeToProduce;
+    private float productionPercent;
+    public GameObject progressBar;
+    private bool producing;
 
     [Header("Input")]
     public List<Vector3> inputBelt = new List<Vector3>();
@@ -41,6 +45,15 @@ public class Factory : MonoBehaviour
         inputBelt.Capacity = 2;
         inputBeltObject.Capacity = 2;
     }
+
+    void Update()
+    {
+        if (producing)
+        {
+            ProgressBar();
+        }
+    }
+
     void LateUpdate()
     {
         if (inputBeltObject[0] == outputBeltObject)//if the player accidentally places the belt on the same space
@@ -169,7 +182,9 @@ public class Factory : MonoBehaviour
     {
         safeToProduce = false;
         Debug.Log($"Factory at {transform.position} has entered production");
+        producing = true;
         yield return new WaitForSecondsRealtime(productionSpeed);
+        producing = false;
         int fabUnitValue;
         fabUnitValue = ResultBasedOnEnum(intakeUnit1.value, intakeUnit2.value);
         Destroy(intakeUnit1.gameObject);
@@ -183,7 +198,18 @@ public class Factory : MonoBehaviour
         u.belt = outputBeltObject;
         u.value = fabUnitValue;
         intakeNumbers.text = "[0,0]";
+
+        productionPercent = 0;
+        progressBar.transform.localScale = new Vector3(0, progressBar.transform.localScale.y, progressBar.transform.localScale.z);
     }
+
+    private void ProgressBar()
+    {
+        productionPercent += Time.deltaTime;
+        float barXValue = productionPercent / productionSpeed; 
+        progressBar.transform.localScale = new Vector3(barXValue, progressBar.transform.localScale.y, progressBar.transform.localScale.z);
+    }
+
     private int ResultBasedOnEnum(int u1, int u2)
     {
         int result = factoryType switch
