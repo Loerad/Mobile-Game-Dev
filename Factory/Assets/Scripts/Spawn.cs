@@ -16,7 +16,7 @@ public class Spawn : MonoBehaviour
     [Header("Factory")]
     public GameObject factory;
     private Button factoryButton;
-    private int factoryCount = 10;
+    private int factoryCount = 8;
     private FactoryType factoryType;
     private VisualElement factoryChoice;
     private Button plusButton;
@@ -31,7 +31,7 @@ public class Spawn : MonoBehaviour
     [Header("Foundry")]
     public GameObject foundry;
     private Button foundryButton;
-    private int foundryCount = 10;
+    private int foundryCount = 16;
     void Awake()
     {
         root = GetComponent<UIDocument>().rootVisualElement;
@@ -188,14 +188,13 @@ public class Spawn : MonoBehaviour
                                         f.factoryType = factoryType;
                                         factoryChoice.visible = false;
                                     }
-                                    break;
                                 }
+                                break;
                             }
                             catch (System.NullReferenceException)
                             {
                                 return; //allows ui buttons to be pressed without spawning a factory
                             }
-                            break;
                         }
                     case Mode.Foundry:
                         {
@@ -210,13 +209,12 @@ public class Spawn : MonoBehaviour
                                         {
                                             if (f.outputBeltObject.GetComponent<Belt>().placed != null)
                                             {
-                                                if (foundryCount <= 0)
+                                                if (f.value >= 5)
                                                 {
                                                     return;
                                                 }                                               
                                                 f.value++;
                                                 f.valueText.text = f.value.ToString();
-                                                foundryCount--; 
                                                 foundryButton.text = $"Foundries:\n{foundryCount}";
                                             }
                                         }
@@ -244,35 +242,6 @@ public class Spawn : MonoBehaviour
                                         Instantiate(foundry, touchPosition, Quaternion.identity);
                                     }
                                 }
-                            }
-                            catch (System.NullReferenceException)
-                            {
-                                return; //allows ui buttons to be pressed without spawning a factory
-                            }
-                            break;
-                        }
-                    case Mode.Delete:
-                        {
-                            try
-                            {
-                                if (hit.collider.gameObject.CompareTag("Factory"))
-                                {
-                                    Factory target = hit.collider.gameObject.GetComponent<Factory>();
-                                    factoryCount++;
-                                    Destroy(target.outputBeltObject);
-                                    Destroy(target.inputBeltObject[0]);
-                                    Destroy(target.inputBeltObject[1]);
-                                    Destroy(target.gameObject);
-                                    factoryButton.text = $"Factories:\n{factoryCount}";
-                                }
-                                if (hit.collider.gameObject.CompareTag("Foundry"))
-                                {
-                                    Foundry target = hit.collider.gameObject.GetComponent<Foundry>();
-                                    foundryCount += target.value;
-                                    Destroy(target.outputBeltObject); //foundries only give out one output and do not take inputs unlike factories
-                                    Destroy(target.gameObject);
-                                    foundryButton.text = $"Foundries:\n{foundryCount}";
-                                }
                                 break;
                             }
                             catch (System.NullReferenceException)
@@ -281,8 +250,45 @@ public class Spawn : MonoBehaviour
                             }
 
                         }
-                }
+                    case Mode.Delete:
+                        {
+                            try
+                            {
+                                if (touch.phase == TouchPhase.Began)
+                                {
+                                    if (hit.collider.gameObject.CompareTag("Factory"))
+                                    {
+                                        Factory target = hit.collider.gameObject.GetComponent<Factory>();
+                                        if (target.intakeUnit1 != null || target.intakeUnit2 != null)
+                                        {
+                                            target.RemoveFactoryNumbers();
+                                            return;
+                                        }
+                                        factoryCount++;
+                                        Destroy(target.outputBeltObject);
+                                        Destroy(target.inputBeltObject[0]);
+                                        Destroy(target.inputBeltObject[1]);
+                                        Destroy(target.gameObject);
+                                        factoryButton.text = $"Factories:\n{factoryCount}";
+                                    }
+                                    if (hit.collider.gameObject.CompareTag("Foundry"))
+                                    {
+                                        Foundry target = hit.collider.gameObject.GetComponent<Foundry>();
+                                        foundryCount++;
+                                        Destroy(target.outputBeltObject); //foundries only give out one output and do not take inputs unlike factories
+                                        Destroy(target.gameObject);
+                                        foundryButton.text = $"Foundries:\n{foundryCount}";
+                                    }
 
+                                }
+                                break;
+                            }
+                            catch (System.NullReferenceException)
+                            {
+                                return; //allows ui buttons to be pressed without spawning a factory
+                            }
+                        }
+                }
             }
         }
     }

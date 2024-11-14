@@ -8,8 +8,8 @@ using UnityEngine;
 public class Factory : MonoBehaviour
 {
     
-    private Unit intakeUnit1;
-    private Unit intakeUnit2;
+    public Unit intakeUnit1;
+    public Unit intakeUnit2;
     [SerializeField]
     private TextMeshPro intakeNumbers;
     public FactoryType factoryType;
@@ -210,6 +210,13 @@ public class Factory : MonoBehaviour
         u.target = outputBeltObject.GetComponent<Belt>().target;
         u.belt = outputBeltObject;
         u.value = fabUnitValue;
+    }
+    public void RemoveFactoryNumbers()
+    { 
+        StopCoroutine(Production());
+        intakeUnit1 = null;
+        intakeUnit2 = null;
+        intakeNumbers.text = "[0,0]";
     }
 
     private void ProgressBar()

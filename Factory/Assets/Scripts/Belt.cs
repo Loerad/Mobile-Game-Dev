@@ -9,6 +9,7 @@ public class Belt : MonoBehaviour
     public GameObject arrow;
     public GameObject target;
     public GameObject placed = null;
+    public GameObject origin; //this is unused but can be used if you need to know where the belt starts
     // Start is called before the first frame update
     void Awake()
     {
@@ -99,7 +100,7 @@ public class Belt : MonoBehaviour
                         Destroy(gameObject); return;
                     }
                     //https://discussions.unity.com/t/look-rotation-2d-equivalent/728105/2
-                    directionVector = lr.GetPosition(0) - lr.GetPosition(1); //this is the wrong way around, switching it makes the arrow spawn off the belt for some reason
+                    directionVector = lr.GetPosition(0) - lr.GetPosition(1); //this is the wrong way around on purpose, switching it makes the arrow spawn off the belt for some reason
                     Vector3 rotatedVectorToEnd = Quaternion.Euler(0,0,90) * -directionVector; //^ that is why this is negative
                     placed = Instantiate(arrow, (lr.GetPosition(1) + directionVector / 2) + new Vector3(0,0,-0.1f),  Quaternion.LookRotation(forward: arrow.transform.forward, upwards: rotatedVectorToEnd), gameObject.transform);
                     break;
