@@ -74,6 +74,15 @@ public class Foundry : MonoBehaviour
         producing = true;
         yield return new WaitForSecondsRealtime(productionSpeed);
         producing = false;
+
+        productionPercent = 0;
+        progressBar.transform.localScale = new Vector3(0, progressBar.transform.localScale.y, progressBar.transform.localScale.z);
+        safeToProduce = true;
+        
+        if (outputBeltObject == null)
+        {
+            yield break;
+        }
         
         Unit u = Instantiate(unit, outputBelt + new Vector3(0,0,-1.2f), Quaternion.identity, outputBeltObject.transform).GetComponent<Unit>();
         u.origin = outputBelt;
@@ -81,10 +90,7 @@ public class Foundry : MonoBehaviour
         u.target = outputBeltObject.GetComponent<Belt>().target;
         u.belt = outputBeltObject;
         u.value = value;
-        safeToProduce = true;
 
-        productionPercent = 0;
-        progressBar.transform.localScale = new Vector3(0, progressBar.transform.localScale.y, progressBar.transform.localScale.z);
     }
 
     private void ChangeIndicator(GameObject indicator, bool state)

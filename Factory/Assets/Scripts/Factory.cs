@@ -185,15 +185,24 @@ public class Factory : MonoBehaviour
     private IEnumerator Production()
     {
         safeToProduce = false;
-        Debug.Log($"Factory at {transform.position} has entered production");
         producing = true;
         yield return new WaitForSecondsRealtime(productionSpeed);
         producing = false;
+
+        productionPercent = 0;
+        progressBar.transform.localScale = new Vector3(0, progressBar.transform.localScale.y, progressBar.transform.localScale.z);
+
         int fabUnitValue;
         fabUnitValue = ResultBasedOnEnum(intakeUnit1.value, intakeUnit2.value);
         Destroy(intakeUnit1.gameObject);
         Destroy(intakeUnit2.gameObject);
+        intakeNumbers.text = "[0,0]";
 
+        if (outputBeltObject == null)
+        {
+            
+            yield break;
+        }
 
         Unit u = Instantiate(unit, outputBelt + new Vector3(0, 0, -1.2f), Quaternion.identity, outputBeltObject.transform).GetComponent<Unit>();
         u.origin = outputBelt;
@@ -201,10 +210,6 @@ public class Factory : MonoBehaviour
         u.target = outputBeltObject.GetComponent<Belt>().target;
         u.belt = outputBeltObject;
         u.value = fabUnitValue;
-        intakeNumbers.text = "[0,0]";
-
-        productionPercent = 0;
-        progressBar.transform.localScale = new Vector3(0, progressBar.transform.localScale.y, progressBar.transform.localScale.z);
     }
 
     private void ProgressBar()
