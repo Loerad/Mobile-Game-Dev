@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-
+//This script is attached to the factories. It adds, subtracts, multiplies, or divides the units that are inputted then returns the result.
 public class Factory : MonoBehaviour
 {
     
@@ -76,7 +76,7 @@ public class Factory : MonoBehaviour
 
         if (inputBeltObject[0] == null) //is there an input belt?
         {
-            if (indicator0State) 
+            if (indicator0State) //no, turn off the indicator
             {
                 indicator0State = false;
                 ChangeIndicator(indicators[0], indicator0State);
@@ -85,7 +85,7 @@ public class Factory : MonoBehaviour
         }
         else 
         {
-            if (!indicator0State)
+            if (!indicator0State) //yes, turn on the indicator
             {
                 indicator0State = true;
                 ChangeIndicator(indicators[0], indicator0State);
@@ -121,7 +121,7 @@ public class Factory : MonoBehaviour
         }
         else
         {
-            if (outputBeltObject.GetComponent<Belt>().placed != null) //when the belt is connected the arrow gets placed
+            if (outputBeltObject.GetComponent<Belt>().placed != null) //when the belt is connected successfully the arrow gets placed, which is what the name of the variable "placed" is
             {
                 if (!indicator2State)
                 {
@@ -185,34 +185,34 @@ public class Factory : MonoBehaviour
     private IEnumerator Production()
     {
         safeToProduce = false;
-        producing = true;
+        producing = true; //this is for the progress bar because I cannot figure out a way to access the yield value and use that instead
         yield return new WaitForSecondsRealtime(productionSpeed);
         producing = false;
 
-        productionPercent = 0;
+        productionPercent = 0; //production has stopped, reset the progress bar
         progressBar.transform.localScale = new Vector3(0, progressBar.transform.localScale.y, progressBar.transform.localScale.z);
 
+        //do the calc for the value attached to the new unit
         int fabUnitValue;
         fabUnitValue = ResultBasedOnEnum(intakeUnit1.value, intakeUnit2.value);
-        if (fabUnitValue > 100) { fabUnitValue = 99; }
+        if (fabUnitValue > 100) { fabUnitValue = 99; } //limiter
         Destroy(intakeUnit1.gameObject);
         Destroy(intakeUnit2.gameObject);
         intakeNumbers.text = "[0,0]";
 
-        if (outputBeltObject == null)
+        if (outputBeltObject == null) //incase you delete the belt while the factory is producing
         {
-            
             yield break;
         }
 
-        Unit u = Instantiate(unit, outputBelt + new Vector3(0, 0, -1.2f), Quaternion.identity, outputBeltObject.transform).GetComponent<Unit>();
+        Unit u = Instantiate(unit, outputBelt + new Vector3(0, 0, -1.2f), Quaternion.identity, outputBeltObject.transform).GetComponent<Unit>(); //spit out the new unit
         u.origin = outputBelt;
         u.destination = outputBeltObject.GetComponent<Belt>().lr.GetPosition(1);
         u.target = outputBeltObject.GetComponent<Belt>().target;
         u.belt = outputBeltObject;
         u.value = fabUnitValue;
     }
-    public void RemoveFactoryNumbers()
+    public void RemoveFactoryNumbers() //used by the delete button
     { 
         StopCoroutine(Production());
         intakeUnit1 = null;

@@ -69,6 +69,7 @@ public class Foundry : MonoBehaviour
 
     IEnumerator Production()
     {
+        //this works identically to the factory production coroutine. Needs to be abstracted into a single base class they draw from later
         safeToProduce = false;
         producing = true;
         yield return new WaitForSecondsRealtime(productionSpeed);

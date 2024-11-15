@@ -21,7 +21,7 @@ public class Unit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float step = 1 * Time.deltaTime;
+        float step = 1 * Time.deltaTime; //abrirtary speed, could later have some different types of belts that can move faster
         transform.position = Vector2.MoveTowards(transform.position, destination, step);
         transform.position = new Vector3(transform.position.x, transform.position.y , -1.2f);  
         if (transform.position == target.transform.position + new Vector3(0,0,-0.2f) && !collected)
@@ -30,7 +30,7 @@ public class Unit : MonoBehaviour
             {
                 target.GetComponent<Factory>().Intake(this, belt);
             }
-            else
+            else //foundries cannot be targeted by belts so I do not need to check for them
             {
                 target.GetComponent<Finish>().CheckWin(this);
             }

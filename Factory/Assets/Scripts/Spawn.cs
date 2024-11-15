@@ -16,7 +16,7 @@ public class Spawn : MonoBehaviour
     [Header("Factory")]
     public GameObject factory;
     private Button factoryButton;
-    private int factoryCount = 8;
+    private int factoryCount = 8; //this and the foundry count are arbitrary and can be changed to whatever you want
     private FactoryType factoryType;
     private VisualElement factoryChoice;
     private Button plusButton;
@@ -177,7 +177,7 @@ public class Spawn : MonoBehaviour
                                     }
                                     else
                                     {
-                                        if (factoryCount <= 0)
+                                        if (factoryCount <= 0) 
                                         {
                                             return;
                                         }
@@ -204,7 +204,7 @@ public class Spawn : MonoBehaviour
                                     if (hit.collider.gameObject.CompareTag("Foundry"))
                                     {
                                         Foundry f = hit.collider.gameObject.GetComponent<Foundry>();
-                                        if (f.outputBeltObject != null)
+                                        if (f.outputBeltObject != null) //this is the upgrading section. Should probably be changed to not require a belt to upgrade, but that would require a new UI system to handle that
                                         {
                                             if (f.outputBeltObject.GetComponent<Belt>().placed != null)
                                             {
@@ -274,7 +274,7 @@ public class Spawn : MonoBehaviour
                                     {
                                         Foundry target = hit.collider.gameObject.GetComponent<Foundry>();
                                         foundryCount++;
-                                        Destroy(target.outputBeltObject); //foundries only give out one output and do not take inputs unlike factories
+                                        Destroy(target.outputBeltObject); //foundries only give one output and do not take inputs
                                         Destroy(target.gameObject);
                                         foundryButton.text = $"Foundries:\n{foundryCount}";
                                     }
@@ -297,7 +297,7 @@ public class Spawn : MonoBehaviour
         }
     }
 
-    void DrawLineFromFactory(RaycastHit2D hit)
+    void DrawLineFromFactory(RaycastHit2D hit) //this is also really stupid
     {
         factoryChoice.visible = false;
         GameObject target = hit.collider.gameObject;

@@ -29,7 +29,7 @@ public class Finish : MonoBehaviour
 
     void Start()
     {
-        winValue = Random.Range(23, 74);
+        winValue = Random.Range(23, 74); //arbitrary range, can be set by a difficulty setting or just changed to whatever you want under 99 and above 5 (The highest value factories can create and the highest level foundry)
         winAmount.text = winValue.ToString();
     }
 
@@ -45,9 +45,9 @@ public class Finish : MonoBehaviour
     {
         if (unit.value == winValue)
         {
-            if (winningUnits[0] == null)
+            if (winningUnits[0] == null) //is there a unit here?
             {
-                winningUnits[0] = unit;
+                winningUnits[0] = unit; //no, put the unit here
                 CheckStates();
             }
             else if (winningUnits[1] == null)
@@ -60,7 +60,7 @@ public class Finish : MonoBehaviour
                 winningUnits[2] = unit;
                 CheckStates();
             }
-            else
+            else //if all are full
             {
                 Destroy(unit.gameObject);
             }
@@ -78,10 +78,10 @@ public class Finish : MonoBehaviour
 
     void CheckStates()
     {
-        if (winningUnits[2] != null && !indicator2State)
+        if (winningUnits[2] != null && !indicator2State) //has the final slot been filled?
         {
-            indicator2State = true;
-            ChangeIndicator(indicators[2], indicator2State);
+            indicator2State = true; //win the game
+            ChangeIndicator(indicators[2], indicator2State); //this is just set to look good as the win screen is transparent
             winScreen.visible = true;
             Time.timeScale = 0;
         }

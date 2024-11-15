@@ -9,8 +9,8 @@ public class Belt : MonoBehaviour
     public GameObject arrow;
     public GameObject target;
     public GameObject placed = null;
-    public GameObject origin; //this is unused but can be used if you need to know where the belt starts
-    // Start is called before the first frame update
+    public GameObject origin; //this is unused but can be used if you need the belt to know where it starts
+
     void Awake()
     {
         spawn = GameObject.Find("Main Camera").GetComponent<Spawn>();
@@ -26,7 +26,7 @@ public class Belt : MonoBehaviour
             {
                 case TouchPhase.Moved:
                 {
-                    lr.SetPosition(1, spawn.touchPosition);
+                    lr.SetPosition(1, spawn.touchPosition); //moves with finger
                     break;
                 }
                 case TouchPhase.Stationary:
@@ -44,6 +44,7 @@ public class Belt : MonoBehaviour
                     {
                         target = hit.collider.gameObject;
                         Vector3 inputPoint = target.transform.position;
+
                         if (target.GetComponent<Factory>().inputBelt[0] != Vector3.zero) //is there a belt in the first slot?
                         { 
                             //yes there is because that vector is not zero, check if there is a belt in the second slot
@@ -95,14 +96,16 @@ public class Belt : MonoBehaviour
                             enabled = false;
                         }
                     }
-                    else
+                    else //not placed on a factory or finish. Foundries cannot take inputs
                     {
                         Destroy(gameObject); return;
                     }
+
                     //https://discussions.unity.com/t/look-rotation-2d-equivalent/728105/2
                     directionVector = lr.GetPosition(0) - lr.GetPosition(1); //this is the wrong way around on purpose, switching it makes the arrow spawn off the belt for some reason
                     Vector3 rotatedVectorToEnd = Quaternion.Euler(0,0,90) * -directionVector; //^ that is why this is negative
-                    placed = Instantiate(arrow, (lr.GetPosition(1) + directionVector / 2) + new Vector3(0,0,-0.1f),  Quaternion.LookRotation(forward: arrow.transform.forward, upwards: rotatedVectorToEnd), gameObject.transform);
+                    placed = Instantiate(arrow, (lr.GetPosition(1) + directionVector / 2) + new Vector3(0,0,-0.1f),  Quaternion.LookRotation(forward: arrow.transform.forward, upwards: rotatedVectorToEnd), gameObject.transform); 
+                    //the odd naming of this variable is because this is the only way to tell if the belt has been successfully placed
                     break;
                 }
             }
