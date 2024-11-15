@@ -194,6 +194,7 @@ public class Factory : MonoBehaviour
 
         int fabUnitValue;
         fabUnitValue = ResultBasedOnEnum(intakeUnit1.value, intakeUnit2.value);
+        if (fabUnitValue > 100) { fabUnitValue = 99; }
         Destroy(intakeUnit1.gameObject);
         Destroy(intakeUnit2.gameObject);
         intakeNumbers.text = "[0,0]";

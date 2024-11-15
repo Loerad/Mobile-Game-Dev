@@ -282,6 +282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb3d6b610aaebe64f8c99a28c3e959b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  belt: {fileID: 0}
   target: {fileID: 0}
   origin: {x: 0, y: 0}
   destination: {x: 0, y: 0, z: 0}

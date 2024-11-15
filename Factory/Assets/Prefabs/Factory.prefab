@@ -466,9 +466,9 @@ MonoBehaviour:
   m_fontSize: 4
   m_fontSizeBase: 4
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 1
+  m_fontSizeMax: 4
   m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -499,7 +499,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0.01118499, y: 0, z: -0.013001621, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   _SortingLayer: 0
@@ -623,6 +623,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ebef91476b36de4eaf5f497bffd4614, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  intakeUnit1: {fileID: 0}
+  intakeUnit2: {fileID: 0}
   intakeNumbers: {fileID: 2966237563309071725}
   factoryType: 0
   unit: {fileID: 4502450408770591922, guid: 941d73a667046ff40b95c0bc41cd9b83, type: 3}

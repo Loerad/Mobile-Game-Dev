@@ -13,8 +13,7 @@ public class Foundry : MonoBehaviour
     public GameObject outputBeltObject;
 
     [Header("Production")]
-    public float productionAmount = 1;
-    public float productionSpeed = 4;
+    private float productionSpeed = 4;
     private float productionPercent;
     public GameObject progressBar;
     private bool producing;

@@ -144,7 +144,6 @@ public class Spawn : MonoBehaviour
 
     void Update()
     {
-        foundryButton.style.unityBackgroundImageTintColor = active;
         foreach (Touch touch in Input.touches)
         {
             //https://discussions.unity.com/t/best-way-to-detect-touch-on-a-gameobject/157075/2
@@ -279,6 +278,11 @@ public class Spawn : MonoBehaviour
                                         Destroy(target.gameObject);
                                         foundryButton.text = $"Foundries:\n{foundryCount}";
                                     }
+                                    if (hit.collider.gameObject.CompareTag("Finish"))
+                                    {
+                                        Finish target = hit.collider.gameObject.GetComponent<Finish>();
+                                        Destroy(target.inputBeltObject);
+                                    }
 
                                 }
                                 break;
@@ -295,6 +299,7 @@ public class Spawn : MonoBehaviour
 
     void DrawLineFromFactory(RaycastHit2D hit)
     {
+        factoryChoice.visible = false;
         GameObject target = hit.collider.gameObject;
         Vector3 outputPoint = target.transform.position;
         GameObject currentbelt = Instantiate(belt, outputPoint, Quaternion.identity);
@@ -309,6 +314,7 @@ public class Spawn : MonoBehaviour
 
     void DrawLineFromFoundry(RaycastHit2D hit)
     {
+        factoryChoice.visible = false;
         GameObject target = hit.collider.gameObject;
         Vector3 outputPoint = target.transform.position;
         GameObject currentbelt = Instantiate(belt, outputPoint, Quaternion.identity);
